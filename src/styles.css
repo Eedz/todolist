@@ -1,0 +1,76 @@
+body {
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    background-color: azure;
+    
+}
+
+#titleBar {
+    position: relative;
+    left: 12.5vw;
+    width: 75vw;
+    height: 100px;
+    line-height: 100px; /* Match the line-height to the height of the div */
+    /* border: 1px solid black; */
+    text-align: center;
+    
+}
+
+#titleBar h1 {
+    
+    
+    font-size: 24;
+}
+
+.main{
+    display: flex;
+    position: relative;
+    left: 12.5vw;
+    width: 75vw;
+    flex-direction: "row";
+    gap: 10px;
+    flex: 1 1 0;
+    
+    justify-content: center;
+}
+
+
+
+#sidebar button {
+    display: block;
+    width: 100px;
+}
+
+
+#list {
+    background-color: whitesmoke;
+}
+
+#list table {
+    width: 500px;
+    /* border: 2px solid black; */
+
+}
+
+#list table button {
+    all: unset;
+    color:red;
+    background-color: transparent;
+    border-radius: 0px;
+    cursor: pointer;
+}
+
+tr {
+    /*border: 1px solid black;*/
+    background: #fff; /* White background */
+    padding: 20px; /* Space inside the div */
+    border-radius: 10px; /* Smooth edges */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), /* Shadow for depth */
+                0 1px 3px rgba(0, 0, 0, 0.06);
+    transition: box-shadow 0.3s ease, transform 0.3s ease; /* Smooth interaction */
+}
+
+tr:hover {
+    box-shadow: 0 8px 10px rgba(0, 0, 0, 0.15),
+                0 4px 6px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px); /* Slight lift */
+}
