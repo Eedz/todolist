@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Things To Do</title>
-    
+    <link href='https://fonts.googleapis.com/css?family=MedievalSharp' rel='stylesheet'>
 </head>
 <body>
 
@@ -12,24 +12,31 @@
         <button id="debugBtn">Debug</button>
     </div>
     <div id="titleBar">
-        <h1>My To Do List</h1>
+        <h1>Task List</h1>
     </div>
     <div class="main">
         <div id="sidebar">
             
+            
+            <button id="all" class="filter">All</button>
+            <button id="filtertoday" class="filter">Today</button>
+            <button id="filterweek" class="filter">Week</button>
+            <button id="filtermonth" class="filter">Month</button>
+            <p>
             <button id="sortdate">Date</button>
             <button id="sortcompleted">Completed</button>
-            <p>
-            <button id="filtertoday">Today</button>
-            <button id="filterweek">Week</button>
-            <button id="filtermonth">Month</button>
+            
         </div>
-        <div id="list">
+        <div id="projects">
+            <div id="projectList"></div>
+            <div id="list">
         
+            </div>
+            <div id="newtask"></div>
         </div>
     </div>
     
     <div id="addToDO"></div>
-
+    <div id="details"></div>
 </body>
 </html>

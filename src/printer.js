@@ -1,17 +1,15 @@
 import { format } from "date-fns";
 
-function printList(activeList){
+function printList(project){
 
     const container = document.getElementById("list");
     container.innerHTML="";
-    // if (activeList.length==0)
-    //     return;
 
     const table = document.createElement('table');
 
     const header = table.createTHead();
     const headerRow = header.insertRow();
-    const headers = [ 'title', 'dueDate', 'priority', 'completed', 'remove']
+    const headers = [ 'title', 'dueDate', 'priority', 'completed', 'remove', 'details']
     
     headers.forEach(headerText=> {
         const headerCell = document.createElement('th');
@@ -22,19 +20,30 @@ function printList(activeList){
     const tbody = table.createTBody();
 
     // add a table of items to the container
-    for (let i =0; i < activeList.length;i++){
+    for (let i =0; i < project.todos.length;i++){
         const row = tbody.insertRow();
+        row.id = `row${i}`;
         for (let key of headers){
             const cell = row.insertCell();
             
             switch(key){
+                case 'title':
+                    const titleInput = document.createElement('input');
+                    titleInput.type = 'text';
+                    titleInput.textContent = project.todos[i].title;
+                    titleInput.addEventListener("change", (event)=>{
+                        project.todos[i].title = event.target.value;
+                        
+                    });
+                    cell.appendChild(titleInput);
+                    break;
                 case 'remove':
                     const removeButton = document.createElement('button');
                     removeButton.textContent='X';
                     removeButton.onclick= function()
                     { 
-                        removeItem(activeList, i);
-                        printList(activeList);
+                        removeItem(project.todos, i);
+                        printList(project.todos);
                     }
                     cell.appendChild(removeButton);
                     break;
@@ -42,7 +51,7 @@ function printList(activeList){
                     const doneCheckbox = document.createElement('input');
                     doneCheckbox.type = "checkbox";
                     doneCheckbox.addEventListener("change", (event)=>{
-                        activeList[i].completed = event.target.checked;
+                        project.todos[i].completed = event.target.checked;
                         
                     });
                     
@@ -52,16 +61,16 @@ function printList(activeList){
                     const calendar = document.createElement('input');
                     calendar.type = "date";
                     calendar.addEventListener("change", (event)=>{
-                        activeList[i].dueDate = event.target.value;
+                        project.todos[i].dueDate = event.target.value;
                     });
-                    calendar.value = format(activeList[i].dueDate, "yyyy-MM-dd");                  
+                    calendar.value = format(project.todos[i].dueDate, "yyyy-MM-dd");                  
                     cell.appendChild(calendar);
                     break;
                 case 'priority':
                     const combobox = document.createElement('select')
                     combobox.name = 'priority';
                     combobox.addEventListener('input', (event)=>{
-                        activeList[i].priority = event.target.value;
+                        project.todos[i].priority = event.target.value;
                     });
                     for(let j = 1; j <= 5;j++){
                         const option = document.createElement('option');
@@ -71,41 +80,22 @@ function printList(activeList){
                     }
                     cell.appendChild(combobox);
                     break;
+                case 'details':
+                    const button = document.createElement('button');
+                    button.innerText='v';
+                    button.addEventListener('click', ()=>{
+                        showDetails(project.todos[i],i)
+                    });
+                    cell.appendChild(button);
+                    break;
                 default:
-                    cell.textContent = activeList[i][key];
+                    cell.textContent = project.todos[i][key];
                     break;
             }
         }        
     }
 
-    // add a row of inputs for a new item
-    const row = tbody.insertRow();
-
-    const form = document.createElement("form");
-    form.id = "form";
-
-    const inputField = document.createElement("input");
-    inputField.type = "text";
-    inputField.id = "textInput";
-    inputField.placeholder = "Enter text";
-    form.appendChild(inputField);
-
-    // Create submit button
-    const submitButton = document.createElement("button");
-    submitButton.type = "submit"; // Set button type to 'submit'
-    submitButton.textContent = "Submit";
-    form.appendChild(submitButton);
-
-    const cell = row.insertCell();
-    cell.colSpan = 2; // Merge cells if form spans both
-    cell.appendChild(form);
-
-    form.addEventListener("submit", (event) => {
-        event.preventDefault(); // Prevent page reload
-
-        activeList.push({title: inputField.value, description:'', dueDate:new Date()})
-        printList(activeList);
-      });
+   
 
     container.appendChild(table);
 }
@@ -113,6 +103,16 @@ function printList(activeList){
 function removeItem(activeList, index){
     activeList.splice(index, 1);
     printList(activeList);
+}
+
+function showDetails(item, index){
+    const div = document.getElementById('details');
+    div.innerHTML='';
+    const p = document.createElement('p');
+    p.innerText = item.description;
+    div.appendChild(p);
+    
+    
 }
 
 export { printList }

@@ -1,7 +1,11 @@
 body {
-    font-family:Verdana, Geneva, Tahoma, sans-serif;
-    background-color: azure;
-    
+    font-family: MedievalSharp, Geneva, Tahoma, sans-serif;
+    color: goldenrod;
+    background-color: grey;
+    background-image: url("keys-parchment-near-candles.jpg");
+    background-size: cover; /* Resize to cover the entire viewport */
+    background-repeat: no-repeat; /* Prevent tiling */
+    background-position: center center; /* Center the image */
 }
 
 #titleBar {
@@ -11,14 +15,11 @@ body {
     height: 100px;
     line-height: 100px; /* Match the line-height to the height of the div */
     /* border: 1px solid black; */
-    text-align: center;
-    
+    text-align: center;    
 }
 
 #titleBar h1 {
-    
-    
-    font-size: 24;
+    font-size: 12;
 }
 
 .main{
@@ -29,20 +30,32 @@ body {
     flex-direction: "row";
     gap: 10px;
     flex: 1 1 0;
-    
     justify-content: center;
 }
 
-
+#details{
+    display: flex;
+    position: relative;
+    left: 12.5vw;
+    width: 75vw;
+    flex: 1 1 0;
+    justify-content: center;
+}
 
 #sidebar button {
     display: block;
     width: 100px;
+    background-color: steelblue;
+    border-radius:10px;
 }
 
-
+#project{
+    background-color: slategray;
+    
+}
 #list {
     background-color: whitesmoke;
+    margin: 10px 10px 10px 0px;
 }
 
 #list table {

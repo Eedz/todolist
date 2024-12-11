@@ -5,6 +5,12 @@
 import "./styles.css";
 import { printList } from "./printer.js";
 import { format } from "date-fns";
+import { setup } from "./setup.js";
+
+function Project (name, todos) {
+    this.name = name;
+    this.todos = todos;
+}
 
 function Todo (title, description, date) {
     this.title = title;
@@ -15,42 +21,55 @@ function Todo (title, description, date) {
     this.completed = false;
     this.category = '';
 }
-let activeList = [];
-const todos = [ activeList ];
 
-// read from saved lists
+// TODO read from saved lists
+// test data
+const projects = [ new Project("new project", [new Todo('new item', 'a new item with a default description', '01-Dec-2024'),
+                                            new Todo(' 2nd item', 'description','01-Nov-2024')]),
+                new Project("2nd project", [new Todo ('2nd project item 1', '', '01-Jan-2025')])
+];
 
-if (activeList.length==0){
-    activeList = [
-        new Todo('new item', 'a new item with a default description', '01-Dec-2024'),
-        new Todo(' 2nd item', 'description','01-Nov-2024')
-    ]
-}
-const debug = document.getElementById("debugBtn");
-debug.addEventListener("click", printState);
+let activeProject = projects[0];
 
-const sortDate = document.getElementById("sortdate");
 
-const todayItems = document.getElementById("filtertoday");
-todayItems.addEventListener("click", getTodayItems);
-
-const thisWeek = document.getElementById("filterweek");
-thisWeek.addEventListener("click", getThisWeekItems);
-
-const thisMonth = document.getElementById("filtermonth");
-thisMonth.addEventListener("click", getThisMonthItems);
 
 // set up the page
-printList(activeList);
+
+const addTask = document.getElementById('newtask');
+const form = document.createElement("form");
+form.id = "form";
+
+const inputField = document.createElement("input");
+inputField.type = "text";
+inputField.id = "textInput";
+inputField.placeholder = "Enter text";
+form.appendChild(inputField);
+
+// Create submit button
+const submitButton = document.createElement("button");
+submitButton.type = "submit"; // Set button type to 'submit'
+submitButton.textContent = "Submit";
+form.appendChild(submitButton);
+
+form.addEventListener("submit", (event) => {
+     event.preventDefault(); // Prevent page reload
+
+     activeProject.todos.push({title: inputField.value, description:'', dueDate:new Date()})
+     printList(activeProject);
+   });
+
+addTask.appendChild(form);
+
+printList(projects[0]);
 
 function addList(list) {
-    todos.push(list);
-    printList(activeList);
+    projects.push(new Project('new project', list));
+    printList(activeProject);
 }
 
 function removeList (index){
-    todos.splice(index, 1);
-    printList(activeList);
+    projects.splice(index, 1);
+    printList(activeProject);
 }
 
 function getTodayItems(){
@@ -124,3 +143,29 @@ function printState (){
         debugContainer.appendChild(p);
     });
 }
+
+const debug = document.getElementById("debugBtn");
+debug.addEventListener("click", printState);
+
+const sortDate = document.getElementById("sortdate");
+
+const allItems = document.getElementById("all");
+allItems.addEventListener("click", ()=> printList(activeList) );
+
+const todayItems = document.getElementById("filtertoday");
+todayItems.addEventListener("click", getTodayItems);
+
+const thisWeek = document.getElementById("filterweek");
+thisWeek.addEventListener("click", getThisWeekItems);
+
+const thisMonth = document.getElementById("filtermonth");
+thisMonth.addEventListener("click", getThisMonthItems);
+
+const projectList = document.getElementById("projectList");
+projects.forEach((item)=>{
+    const button = document.createElement('button');
+    button.id =item.name;
+    button.innerText=item.name;
+    button.addEventListener('click', ()=>printList(item));
+    projectList.appendChild(button);
+});
